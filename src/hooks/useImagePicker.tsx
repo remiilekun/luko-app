@@ -7,17 +7,17 @@ const options = ["Choose from library", "Take photo or video", "Cancel"];
 const useImagePicker = ({
   onChange,
 }: {
-  onChange: (file: ImagePickerResult) => void;
+  onChange?: (file: ImagePickerResult) => void;
 }) => {
   const sheetRef = useRef<RNActionSheet>(null);
 
   const onSelect = async (index: number) => {
     if (index === 0) {
       const selectedFile = await ImagePicker.pickImage();
-      onChange(selectedFile);
+      onChange?.(selectedFile);
     } else if (index === 1) {
       const selectedFile = await ImagePicker.takePhoto();
-      onChange(selectedFile);
+      onChange?.(selectedFile);
     }
   };
 
