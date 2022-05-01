@@ -24,6 +24,7 @@ export default function TextInput({
   error,
   label,
   margined,
+  onBlur,
   textArea,
   ...props
 }: TextInputProps) {
@@ -35,7 +36,10 @@ export default function TextInput({
       <View style={styles.inputWrapper}>
         <RNTextInput
           onFocus={() => setIsFocused(true)}
-          onBlur={() => setIsFocused(false)}
+          onBlur={(e) => {
+            setIsFocused(false);
+            onBlur?.(e);
+          }}
           placeholderTextColor={colors.mainGrey}
           style={[
             styles.input,

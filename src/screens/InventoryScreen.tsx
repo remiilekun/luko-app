@@ -5,13 +5,13 @@ import { colors } from "../theme/colors";
 
 export default function InventoryScreen({
   navigation,
-  route
+  route,
 }: RootTabScreenProps<"Inventory">) {
   const handleAddButtonPress = () => navigation.navigate("AddItem");
 
   return (
     <View style={styles.container}>
-        <Title onButtonPress={handleAddButtonPress}>{route.name}</Title>
+      <Title onButtonPress={handleAddButtonPress}>{route.name}</Title>
     </View>
   );
 }
@@ -21,5 +21,5 @@ const styles = StyleSheet.create({
     flex: 1,
     paddingHorizontal: 20,
     backgroundColor: colors.background,
-  }
+  },
 });

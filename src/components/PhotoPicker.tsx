@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   Image,
   ImageStyle,
@@ -15,14 +14,17 @@ import useImagePicker, { ImagePickerResult } from "../hooks/useImagePicker";
 import { fonts } from "../theme/fonts";
 
 interface PhotoPickerProps {
-  onChange?: (photo: ImagePickerResult) => void;
+  error?: string;
+  onChange?: (value: string) => void;
   photo?: string;
 }
 
-const PhotoPicker = ({ photo, onChange }: PhotoPickerProps) => {
+const PhotoPicker = ({ error, photo, onChange }: PhotoPickerProps) => {
   const { launchPicker, picker } = useImagePicker({ onChange });
 
-  console.log({ photo });
+  const onDelete = () => {
+    onChange?.("");
+  };
 
   return (
     <>
@@ -33,7 +35,7 @@ const PhotoPicker = ({ photo, onChange }: PhotoPickerProps) => {
             source={{ uri: photo }}
             style={styles.previewImage}
           />
-          <Pressable style={styles.deleteWrapper}>
+          <Pressable style={styles.deleteWrapper} onPress={onDelete}>
             <Ionicons name="md-trash" size={15} color={colors.white} />
           </Pressable>
         </View>
@@ -49,12 +51,14 @@ const PhotoPicker = ({ photo, onChange }: PhotoPickerProps) => {
         </Pressable>
       )}
 
+      {error ? <Text style={styles.errorText}>{error}</Text> : null}
       {picker}
     </>
   );
 };
 
 export default PhotoPicker;
+export { ImagePickerResult };
 
 const styles = StyleSheet.create({
   deleteWrapper: {
@@ -92,5 +96,12 @@ const styles = StyleSheet.create({
     color: colors.black,
     fontSize: 17,
     fontFamily: fonts.regular,
+  } as TextStyle,
+  errorText: {
+    color: colors.red,
+    fontFamily: fonts.regular,
+    fontSize: 10,
+    fontWeight: "400",
+    marginTop: 5,
   } as TextStyle,
 });
