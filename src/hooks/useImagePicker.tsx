@@ -18,18 +18,14 @@ const useImagePicker = ({
         return;
       }
       const [, mime] = result.uri.split(".");
-      onChange?.(
-        result.base64 ? `data:${mime};base64,${result.base64}` : result.uri
-      );
+      onChange?.(result.uri);
     } else if (index === 1) {
       const result = await ImagePicker.takePhoto();
       if (!result || result?.cancelled === true) {
         return;
       }
       const [, mime] = result.uri.split(".");
-      onChange?.(
-        result.base64 ? `data:${mime};base64,${result.base64}` : result.uri
-      );
+      onChange?.(result.uri);
     }
   };
 

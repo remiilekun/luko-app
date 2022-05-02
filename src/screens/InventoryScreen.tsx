@@ -34,7 +34,10 @@ export default function InventoryScreen({
     return <View style={styles.separator} />;
   }, []);
 
-  const keyExtractor = useCallback((item) => item.id, []);
+  const keyExtractor = useCallback(
+    ({ item }) => `${item?.[0].id}-${item?.[1].id || ""}`,
+    []
+  );
 
   return (
     <View style={styles.container}>

@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import uuid from "react-native-uuid";
 import { InventoryItem } from "../navigation/types";
 
 type StoreContextType = {
@@ -36,9 +37,9 @@ const StoreProvider = ({ children }: { children: JSX.Element }) => {
     }
   };
 
-  const updateLocalInventory = async () => {
+  const updateLocalInventory = async (newInventory: InventoryItem[]) => {
     try {
-      const value = JSON.stringify(inventory);
+      const value = JSON.stringify(newInventory);
       await AsyncStorage.setItem(LS_INVENTORY, value);
     } catch (e) {
       console.log(e);
@@ -50,19 +51,23 @@ const StoreProvider = ({ children }: { children: JSX.Element }) => {
     loadInventory();
   }, []);
 
-  const addItem = (item: InventoryItem) => {
-    setInventory((v) => [{ ...item, id: v.length.toString() }, ...v]);
-    updateLocalInventory();
+  const addItem = async (item: InventoryItem) => {
+    const id = uuid.v4() as string;
+    const newInventory = [{ ...item, id }, ...inventory];
+    setInventory(newInventory);
+    await updateLocalInventory(newInventory);
   };
 
-  const removeItem = (id: string) => {
-    setInventory((v) => v.filter((i) => i.id !== id));
-    updateLocalInventory();
+  const removeItem = async (id: string) => {
+    const newInventory = inventory.filter((i) => i.id !== id);
+    setInventory(newInventory);
+    await updateLocalInventory(newInventory);
   };
 
-  const updateItem = (item: InventoryItem) => {
-    setInventory((v) => v.map((i) => (i.id === item.id ? item : i)));
-    updateLocalInventory();
+  const updateItem = async (item: InventoryItem) => {
+    const newInventory = inventory.map((i) => (i.id === item.id ? item : i));
+    setInventory(newInventory);
+    await updateLocalInventory(newInventory);
   };
 
   const findItem = (id?: string) => {
