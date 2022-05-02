@@ -30,8 +30,12 @@ const InventoryItemCard = ({
     >
       <Image style={styles.image} source={{ uri: item.photo }} />
       <View style={styles.content}>
-        <Text style={styles.name}>{item.name}</Text>
-        <Text style={styles.price}>{item.value}</Text>
+        <Text testID="inventory-card-title" style={styles.name}>
+          {item.name}
+        </Text>
+        <Text testID="inventory-card-price" style={styles.price}>
+          {item.value}
+        </Text>
       </View>
     </TouchableOpacity>
   );
@@ -42,7 +46,6 @@ export default InventoryItemCard;
 const styles = StyleSheet.create({
   wrapper: {
     backgroundColor: colors.white,
-    // flex: 1,
     borderRadius: 14,
     overflow: "hidden",
     shadowColor: "#06080D",

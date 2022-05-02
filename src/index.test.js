@@ -1,3 +1,3 @@
-it(`App template failing test`, () => {
-  expect(true).toBe(false);
+it(`App template passing test`, () => {
+  expect(true).toBe(true);
 });

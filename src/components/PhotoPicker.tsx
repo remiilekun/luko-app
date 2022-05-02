@@ -35,12 +35,20 @@ const PhotoPicker = ({ error, photo, onChange }: PhotoPickerProps) => {
             source={{ uri: photo }}
             style={styles.previewImage}
           />
-          <Pressable style={styles.deleteWrapper} onPress={onDelete}>
+          <Pressable
+            style={styles.deleteWrapper}
+            onPress={onDelete}
+            testID="delete-button"
+          >
             <Ionicons name="md-trash" size={15} color={colors.white} />
           </Pressable>
         </View>
       ) : (
-        <Pressable style={styles.pickerContainer} onPress={launchPicker}>
+        <Pressable
+          style={styles.pickerContainer}
+          onPress={launchPicker}
+          testID="select-button"
+        >
           <Entypo
             color={colors.mainBlue}
             name="camera"

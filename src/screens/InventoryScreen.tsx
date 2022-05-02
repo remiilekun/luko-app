@@ -15,8 +15,6 @@ export default function InventoryScreen({
   const data = chunk(inventory, 2);
   const handleAddButtonPress = () => navigation.navigate("AddItem");
 
-  console.log({ data });
-
   const renderItem = useCallback(({ item }) => {
     return (
       <View style={styles.itemGroup}>
