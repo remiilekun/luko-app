@@ -1,4 +1,12 @@
-import { StyleSheet, Text, View, ViewStyle } from "react-native";
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+  ViewStyle,
+} from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
@@ -46,7 +54,7 @@ export default function AddItemScreen({
     formState: { errors, isValid },
   } = useForm<FormValues>({
     resolver: yupResolver(schema),
-    mode: "onBlur",
+    mode: "all",
     defaultValues: {
       ...item,
       value: item?.value ? item.value.toString() : "",
@@ -82,91 +90,101 @@ export default function AddItemScreen({
         />
       </View>
 
-      <View style={styles.pickerWrapper}>
-        <Controller
-          control={control}
-          name="photo"
-          render={({ field: { onChange, value } }) => (
-            <PhotoPicker
-              photo={value}
-              onChange={onChange}
-              error={errors?.photo?.message}
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        style={styles.avoidingView}
+      >
+        <ScrollView>
+          <View style={styles.pickerWrapper}>
+            <Controller
+              control={control}
+              name="photo"
+              render={({ field: { onChange, value } }) => (
+                <PhotoPicker
+                  photo={value}
+                  onChange={onChange}
+                  error={errors?.photo?.message}
+                />
+              )}
             />
-          )}
-        />
-      </View>
+          </View>
 
-      <Controller
-        control={control}
-        name="name"
-        render={({
-          field: { onChange, onBlur, value },
-          fieldState: { error },
-        }) => (
-          <TextInput
-            error={error?.message}
-            label="Name"
-            margined
-            onBlur={onBlur}
-            onChangeText={onChange}
-            placeholder="Bracelet"
-            value={value}
+          <Controller
+            control={control}
+            name="name"
+            render={({
+              field: { onChange, onBlur, value },
+              fieldState: { error },
+            }) => (
+              <TextInput
+                error={error?.message}
+                label="Name"
+                margined
+                onBlur={onBlur}
+                onChangeText={onChange}
+                placeholder="Bracelet"
+                value={value}
+              />
+            )}
           />
-        )}
-      />
 
-      <Controller
-        control={control}
-        name="value"
-        render={({
-          field: { onChange, onBlur, value },
-          fieldState: { error },
-        }) => (
-          <TextInput
-            addon={<Text style={styles.inputCurrency}>€</Text>}
-            error={error?.message}
-            keyboardType="number-pad"
-            label="Value"
-            margined
-            onBlur={onBlur}
-            onChangeText={onChange}
-            placeholder="700"
-            value={value}
+          <Controller
+            control={control}
+            name="value"
+            render={({
+              field: { onChange, onBlur, value },
+              fieldState: { error },
+            }) => (
+              <TextInput
+                addon={<Text style={styles.inputCurrency}>€</Text>}
+                error={error?.message}
+                keyboardType="number-pad"
+                label="Value"
+                margined
+                onBlur={onBlur}
+                onChangeText={onChange}
+                placeholder="700"
+                value={value}
+              />
+            )}
           />
-        )}
-      />
 
-      <Controller
-        control={control}
-        name="description"
-        render={({
-          field: { onChange, onBlur, value },
-          fieldState: { error },
-        }) => (
-          <TextInput
-            error={error?.message}
-            label="Description"
-            multiline
-            numberOfLines={4}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            placeholder="Optional"
-            textArea
-            value={value}
+          <Controller
+            control={control}
+            name="description"
+            render={({
+              field: { onChange, onBlur, value },
+              fieldState: { error },
+            }) => (
+              <TextInput
+                error={error?.message}
+                label="Description"
+                multiline
+                numberOfLines={4}
+                onBlur={onBlur}
+                onChangeText={onChange}
+                placeholder="Optional"
+                textArea
+                value={value}
+              />
+            )}
           />
-        )}
-      />
 
-      {item?.id ? (
-        <Text style={styles.deleteText} onPress={onDelete}>
-          Delete Item
-        </Text>
-      ) : null}
+          {item?.id ? (
+            <Text style={styles.deleteText} onPress={onDelete}>
+              Delete Item
+            </Text>
+          ) : null}
+        </ScrollView>
+      </KeyboardAvoidingView>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
+  avoidingView: {
+    flex: 1,
+  },
   container: {
     backgroundColor: colors.background,
     flex: 1,
@@ -198,5 +216,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "400",
     marginTop: 30,
+    textAlign: "center",
   },
 });

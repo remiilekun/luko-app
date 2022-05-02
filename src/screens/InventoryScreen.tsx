@@ -17,7 +17,7 @@ export default function InventoryScreen({
 
   console.log({ data });
 
-  const renderItem = useCallback(({ item, index }) => {
+  const renderItem = useCallback(({ item }) => {
     return (
       <View style={styles.itemGroup}>
         {item.map((itemChild: InventoryItem) => (
