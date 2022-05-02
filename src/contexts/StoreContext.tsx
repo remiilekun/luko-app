@@ -1,17 +1,24 @@
-import { createContext, useEffect, useMemo, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createContext, useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
+import Constants from "expo-constants";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 type InventoryItem = {
-  id: number;
+  id?: number;
   name: string;
-  purchasePrice: number;
+  purchasePrice: number | string;
   type?: string;
   description?: string;
   photo?: string;
 };
 
-type StoreContextType = {};
+type StoreContextType = {
+  addItem(item: InventoryItem): void;
+  inventory: InventoryItem[];
+  removeItem(id: number): void;
+  updateItem(item: InventoryItem): void;
+  upsertItem(item: InventoryItem): void;
+};
 
 export const StoreContext = createContext<StoreContextType>(
   {} as StoreContextType
@@ -24,6 +31,7 @@ const StoreProvider = ({ children }: { children: JSX.Element }) => {
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
 
   const loadInventory = async () => {
+    console.log(Constants.name);
     try {
       const localInventory = await AsyncStorage.getItem(LS_INVENTORY);
       if (localInventory) {
@@ -52,7 +60,7 @@ const StoreProvider = ({ children }: { children: JSX.Element }) => {
   }, []);
 
   const addItem = (item: InventoryItem) => {
-    setInventory((v) => [item, ...v]);
+    setInventory((v) => [{ ...item, id: v.length }, ...v]);
     updateLocalInventory();
   };
 
@@ -66,6 +74,14 @@ const StoreProvider = ({ children }: { children: JSX.Element }) => {
     updateLocalInventory();
   };
 
+  const upsertItem = (item: InventoryItem) => {
+    if (item.id) {
+      updateItem(item);
+    } else {
+      addItem(item);
+    }
+  };
+
   if (isLoading)
     return (
       <ActivityIndicator
@@ -76,7 +92,7 @@ const StoreProvider = ({ children }: { children: JSX.Element }) => {
 
   return (
     <StoreContext.Provider
-      value={{ addItem, inventory, removeItem, updateItem }}
+      value={{ addItem, inventory, removeItem, updateItem, upsertItem }}
     >
       {children}
     </StoreContext.Provider>

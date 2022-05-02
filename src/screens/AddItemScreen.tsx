@@ -2,22 +2,25 @@ import { StyleSheet, Text, View, ViewStyle } from "react-native";
 import { Controller, useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { showMessage } from "react-native-flash-message";
 import Button from "../components/Button";
 import { RootTabScreenProps } from "../navigation/types";
 import { colors } from "../theme/colors";
 import TextInput from "../components/TextInput";
 import PhotoPicker from "../components/PhotoPicker";
 import { fonts } from "../theme/fonts";
+import useStore from "../hooks/useStore";
 
 const schema = yup
   .object({
     photo: yup.string().required("Photo is required"),
     name: yup.string().required("Name is required"),
-    value: yup
+    purchasePrice: yup
       .number()
       .typeError("Value must be a number")
       .positive()
       .integer()
+      .max(40000, "Value must be less than or equal to 40,000")
       .required("Value is required"),
     description: yup.string(),
   })
@@ -26,13 +29,14 @@ const schema = yup
 type FormValues = {
   photo: string;
   name: string;
-  value: string;
+  purchasePrice: string | number;
   description?: string;
 };
 
 export default function AddItemScreen({
   navigation,
 }: RootTabScreenProps<"AddItemScreen">) {
+  const { upsertItem } = useStore();
   const {
     control,
     handleSubmit,
@@ -43,7 +47,12 @@ export default function AddItemScreen({
   });
 
   const onSubmit = async (form: FormValues) => {
-    console.log({ form });
+    upsertItem(form);
+    showMessage({
+      message: "Item added",
+      type: "success",
+    });
+    navigation.pop();
   };
 
   return (
@@ -92,7 +101,7 @@ export default function AddItemScreen({
 
       <Controller
         control={control}
-        name="value"
+        name="purchasePrice"
         render={({
           field: { onChange, onBlur, value },
           fieldState: { error },

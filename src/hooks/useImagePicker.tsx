@@ -1,6 +1,6 @@
 import { useMemo, useRef } from "react";
 import RNActionSheet from "react-native-actionsheet";
-import { ImagePicker, ImagePickerResult } from "../sdk/ImagePicker";
+import { ImagePicker } from "../sdk/ImagePicker";
 
 const options = ["Choose from library", "Take photo or video", "Cancel"];
 
@@ -17,13 +17,19 @@ const useImagePicker = ({
       if (!result || result?.cancelled === true) {
         return;
       }
-      onChange?.(result.uri);
+      const [, mime] = result.uri.split(".");
+      onChange?.(
+        result.base64 ? `data:${mime};base64,${result.base64}` : result.uri
+      );
     } else if (index === 1) {
       const result = await ImagePicker.takePhoto();
       if (!result || result?.cancelled === true) {
         return;
       }
-      onChange?.(result?.uri);
+      const [, mime] = result.uri.split(".");
+      onChange?.(
+        result.base64 ? `data:${mime};base64,${result.base64}` : result.uri
+      );
     }
   };
 
@@ -48,4 +54,3 @@ const useImagePicker = ({
 };
 
 export default useImagePicker;
-export { ImagePickerResult };

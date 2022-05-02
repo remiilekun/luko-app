@@ -1,5 +1,6 @@
 import { ActivityIndicator } from "react-native";
 import { StatusBar } from "expo-status-bar";
+import FlashMessage from "react-native-flash-message";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import Navigation from "./src/navigation";
 import { useFonts } from "expo-font";
@@ -25,6 +26,7 @@ export default function App() {
         <Navigation />
       </StoreProvider>
       <StatusBar />
+      <FlashMessage position="top" />
     </SafeAreaProvider>
   );
 }

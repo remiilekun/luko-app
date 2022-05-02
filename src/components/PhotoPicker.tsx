@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { Ionicons, Entypo } from "@expo/vector-icons";
 import { colors } from "../theme/colors";
-import useImagePicker, { ImagePickerResult } from "../hooks/useImagePicker";
+import useImagePicker from "../hooks/useImagePicker";
 import { fonts } from "../theme/fonts";
 
 interface PhotoPickerProps {
@@ -58,7 +58,6 @@ const PhotoPicker = ({ error, photo, onChange }: PhotoPickerProps) => {
 };
 
 export default PhotoPicker;
-export { ImagePickerResult };
 
 const styles = StyleSheet.create({
   deleteWrapper: {
