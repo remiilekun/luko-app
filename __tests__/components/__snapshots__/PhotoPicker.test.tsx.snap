@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components PhotoPicker renders correctly 1`] = `
+<View
+  accessible={true}
+  collapsable={false}
+  focusable={true}
+  onBlur={[Function]}
+  onClick={[Function]}
+  onFocus={[Function]}
+  onResponderGrant={[Function]}
+  onResponderMove={[Function]}
+  onResponderRelease={[Function]}
+  onResponderTerminate={[Function]}
+  onResponderTerminationRequest={[Function]}
+  onStartShouldSetResponder={[Function]}
+  style={
+    Object {
+      "alignItems": "center",
+      "borderColor": "#C0BEB8",
+      "borderRadius": 75,
+      "borderStyle": "dashed",
+      "borderWidth": 2,
+      "height": 150,
+      "justifyContent": "center",
+      "position": "relative",
+      "width": 150,
+    }
+  }
+  testID="select-button"
+>
+  <Text />
+  <Text
+    style={
+      Object {
+        "color": "#000000",
+        "fontFamily": "Circular-Regular",
+        "fontSize": 17,
+      }
+    }
+  >
+    Add photo
+  </Text>
+</View>
+`;

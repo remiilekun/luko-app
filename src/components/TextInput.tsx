@@ -31,10 +31,18 @@ export default function TextInput({
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <View style={[styles.wrapper, margined ? styles.wrapperMargined : {}]}>
-      {label ? <Text style={styles.label}>{label}</Text> : null}
+    <View
+      testID="wrapper"
+      style={[styles.wrapper, margined ? styles.wrapperMargined : {}]}
+    >
+      {label ? (
+        <Text testID="label" style={styles.label}>
+          {label}
+        </Text>
+      ) : null}
       <View style={styles.inputWrapper}>
         <RNTextInput
+          testID="input"
           onFocus={() => setIsFocused(true)}
           onBlur={(e) => {
             setIsFocused(false);
@@ -51,9 +59,17 @@ export default function TextInput({
           {...props}
         />
 
-        {addon ? <View style={styles.inputAddon}>{addon}</View> : null}
+        {addon ? (
+          <View testID="addon" style={styles.inputAddon}>
+            {addon}
+          </View>
+        ) : null}
       </View>
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+      {error ? (
+        <Text testID="error" style={styles.errorText}>
+          {error}
+        </Text>
+      ) : null}
     </View>
   );
 }

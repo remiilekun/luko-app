@@ -32,6 +32,7 @@ const PhotoPicker = ({ error, photo, onChange }: PhotoPickerProps) => {
         <View style={styles.pickerContainer}>
           <Image
             resizeMode="cover"
+            testID="preview-image"
             source={{ uri: photo }}
             style={styles.previewImage}
           />

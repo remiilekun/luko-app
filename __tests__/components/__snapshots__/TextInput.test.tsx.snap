@@ -1,0 +1,52 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components TextInput renders correctly 1`] = `
+<View
+  style={
+    Array [
+      Object {},
+      Object {},
+    ]
+  }
+  testID="wrapper"
+>
+  <View
+    style={
+      Object {
+        "position": "relative",
+      }
+    }
+  >
+    <TextInput
+      allowFontScaling={true}
+      onBlur={[Function]}
+      onFocus={[Function]}
+      placeholderTextColor="#C0BEB8"
+      rejectResponderTermination={true}
+      style={
+        Array [
+          Object {
+            "backgroundColor": "#FFFFFF",
+            "borderColor": "#EAE9E3",
+            "borderRadius": 10,
+            "borderStyle": "solid",
+            "borderWidth": 2,
+            "fontFamily": "Circular-Regular",
+            "fontSize": 17,
+            "fontWeight": "400",
+            "lineHeight": 20,
+            "paddingHorizontal": 15,
+            "paddingVertical": 12,
+          },
+          Object {},
+          Object {},
+          Object {},
+          Object {},
+        ]
+      }
+      testID="input"
+      underlineColorAndroid="transparent"
+    />
+  </View>
+</View>
+`;
