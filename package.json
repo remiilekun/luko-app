@@ -24,6 +24,7 @@
     "expo-font": "~10.0.4",
     "expo-image-picker": "^12.0.2",
     "expo-status-bar": "~1.2.0",
+    "lodash.chunk": "^4.2.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",
     "react-hook-form": "^7.30.0",
@@ -37,6 +38,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",
+    "@types/lodash.chunk": "^4.2.7",
     "@types/react": "~17.0.21",
     "@types/react-native": "~0.64.12",
     "@types/react-native-actionsheet": "^2.4.3",

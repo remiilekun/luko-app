@@ -65,9 +65,8 @@ const styles = StyleSheet.create({
   },
   label: {
     color: colors.darkGrey,
-    fontFamily: fonts.regular,
+    fontFamily: fonts.bold,
     fontSize: 13,
-    fontWeight: "500",
     lineHeight: 17,
     marginBottom: 5,
   } as TextStyle,

@@ -15,7 +15,7 @@ const schema = yup
   .object({
     photo: yup.string().required("Photo is required"),
     name: yup.string().required("Name is required"),
-    purchasePrice: yup
+    value: yup
       .number()
       .typeError("Value must be a number")
       .positive()
@@ -29,14 +29,17 @@ const schema = yup
 type FormValues = {
   photo: string;
   name: string;
-  purchasePrice: string | number;
+  value: string;
   description?: string;
 };
 
 export default function AddItemScreen({
   navigation,
+  route,
 }: RootTabScreenProps<"AddItemScreen">) {
-  const { upsertItem } = useStore();
+  const { upsertItem, findItem, removeItem } = useStore();
+  const item = findItem(route?.params?.id);
+
   const {
     control,
     handleSubmit,
@@ -44,12 +47,25 @@ export default function AddItemScreen({
   } = useForm<FormValues>({
     resolver: yupResolver(schema),
     mode: "onBlur",
+    defaultValues: {
+      ...item,
+      value: item?.value ? item.value.toString() : "",
+    },
   });
+
+  const onDelete = () => {
+    removeItem(item?.id as string);
+    navigation.goBack();
+    showMessage({
+      message: "Item deleted",
+      type: "success",
+    });
+  };
 
   const onSubmit = async (form: FormValues) => {
     upsertItem(form);
     showMessage({
-      message: "Item added",
+      message: item?.id ? "Item updated" : "Item added",
       type: "success",
     });
     navigation.pop();
@@ -101,7 +117,7 @@ export default function AddItemScreen({
 
       <Controller
         control={control}
-        name="purchasePrice"
+        name="value"
         render={({
           field: { onChange, onBlur, value },
           fieldState: { error },
@@ -140,6 +156,12 @@ export default function AddItemScreen({
           />
         )}
       />
+
+      {item?.id ? (
+        <Text style={styles.deleteText} onPress={onDelete}>
+          Delete Item
+        </Text>
+      ) : null}
     </View>
   );
 }
@@ -169,5 +191,12 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: "400",
     lineHeight: 24,
+  },
+  deleteText: {
+    color: colors.red,
+    fontFamily: fonts.regular,
+    fontSize: 16,
+    fontWeight: "400",
+    marginTop: 30,
   },
 });

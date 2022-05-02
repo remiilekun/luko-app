@@ -1,21 +1,13 @@
 import { createContext, useEffect, useState } from "react";
 import { ActivityIndicator } from "react-native";
-import Constants from "expo-constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
-type InventoryItem = {
-  id?: number;
-  name: string;
-  purchasePrice: number | string;
-  type?: string;
-  description?: string;
-  photo?: string;
-};
+import { InventoryItem } from "../navigation/types";
 
 type StoreContextType = {
   addItem(item: InventoryItem): void;
+  findItem(id: string): InventoryItem | {} | undefined;
   inventory: InventoryItem[];
-  removeItem(id: number): void;
+  removeItem(id: string): void;
   updateItem(item: InventoryItem): void;
   upsertItem(item: InventoryItem): void;
 };
@@ -31,7 +23,6 @@ const StoreProvider = ({ children }: { children: JSX.Element }) => {
   const [inventory, setInventory] = useState<InventoryItem[]>([]);
 
   const loadInventory = async () => {
-    console.log(Constants.name);
     try {
       const localInventory = await AsyncStorage.getItem(LS_INVENTORY);
       if (localInventory) {
@@ -60,11 +51,11 @@ const StoreProvider = ({ children }: { children: JSX.Element }) => {
   }, []);
 
   const addItem = (item: InventoryItem) => {
-    setInventory((v) => [{ ...item, id: v.length }, ...v]);
+    setInventory((v) => [{ ...item, id: v.length.toString() }, ...v]);
     updateLocalInventory();
   };
 
-  const removeItem = (id: number) => {
+  const removeItem = (id: string) => {
     setInventory((v) => v.filter((i) => i.id !== id));
     updateLocalInventory();
   };
@@ -72,6 +63,13 @@ const StoreProvider = ({ children }: { children: JSX.Element }) => {
   const updateItem = (item: InventoryItem) => {
     setInventory((v) => v.map((i) => (i.id === item.id ? item : i)));
     updateLocalInventory();
+  };
+
+  const findItem = (id?: string) => {
+    if (id) {
+      return inventory.find((i) => i.id === id);
+    }
+    return {};
   };
 
   const upsertItem = (item: InventoryItem) => {
@@ -92,7 +90,14 @@ const StoreProvider = ({ children }: { children: JSX.Element }) => {
 
   return (
     <StoreContext.Provider
-      value={{ addItem, inventory, removeItem, updateItem, upsertItem }}
+      value={{
+        addItem,
+        findItem,
+        inventory,
+        removeItem,
+        updateItem,
+        upsertItem,
+      }}
     >
       {children}
     </StoreContext.Provider>
